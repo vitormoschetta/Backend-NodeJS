@@ -31,7 +31,7 @@ exports.update = (id, data) => {
 }
 
 exports.delete = (id) => {
-    return Product.findOneAndRemove({_id: id})       
+    return Product.findByIdAndRemove({_id: id})       
 }
 
 function Exists(name) {

@@ -10,7 +10,7 @@ const router = express.Router();
 
 // conecta ao banco
 const strcon = 'mongodb://localhost:27017/NodeStr'
-mongoose.connect(strcon, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
+mongoose.connect(strcon, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function() {
