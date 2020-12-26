@@ -1,7 +1,5 @@
 'use strict'
 
-const mongoose = require('mongoose')
-const Product = mongoose.model('Product')
 const ValidationContract = require('../validators/fluent.validator')
 const GroupErrors = require('../validators/group.errors')
 const repository = require('../repositories/product-repository')
@@ -27,31 +25,30 @@ exports.create = (req, res, next) => {
     contract.isSmallerThan(req.body.price, 1, 'O Preço informado é inválido. ')
 
     if (!contract.isValid()) {
-        let errors = new GroupErrors().Group(contract.errors())
-        // let dataResult = new DataResult(false, errors, req.body)   
-        res.status(400).send({ success: false, message: errors, data: req.body }).end()
+        let errors = new GroupErrors().Group(contract.errors())        
+        res.status(400).send({success: false, message: errors, data: req.body }).end()
         return
     }
 
     repository
         .create(req.body)
         .then(data => { res.status(201).send({success: true, message: "Produto cadastrado com sucesso", data: data }) })
-        .catch(e => { res.status(400).send({success: false, message: 'Falha ao cadastrar Produto.', data: e }) })
+        .catch(e => { res.status(400).send({success: false, message: 'Falha ao tentar cadastrar o Produto.', data: e }) })
 }
 
 
 exports.update = (req, res, next) => {
     repository
         .update(req.params.id, req.body)
-        .then(data => { res.status(200).send({ message: 'Produto atualizado com sucesso!', data: data }) })
-        .catch(e => { res.status(400).send({ message: 'Falha ao cadastrar Produto.', data: e }) })
+        .then(data => { res.status(200).send({ success: true, message: 'Produto atualizado com sucesso!', data: data }) })
+        .catch(e => { res.status(400).send({ success: false, message: 'Falha ao tentar atualizar o Produto.', data: e }) })
 }
 
 exports.delete = (req, res, next) => {
     repository
         .delete(req.params.id)        
-        .then(data => { res.status(200).send({ message: 'Produto removido com sucesso!', data: data }) })
-        .catch(e => { res.status(400).send({ message: 'Falha ao cadastrar Produto.', data: e }) })
+        .then(data => { res.status(200).send({ success: true, message: 'Produto removido com sucesso!', data: data }) })
+        .catch(e => { res.status(400).send({ success: false, message: 'Falha ao tentar remover o Produto.', data: e }) })
 }
 
 
