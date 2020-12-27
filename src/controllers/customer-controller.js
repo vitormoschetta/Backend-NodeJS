@@ -5,6 +5,7 @@ const GroupErrors = require('../validators/group.errors')
 const repository = require('../repositories/customer-repository')
 const md5 = require('md5')
 const emailService = require('../services/email-service')
+const authService = require('../services/auth-service')
 
 
 exports.create = async (req, res, next) => {
@@ -60,9 +61,10 @@ exports.authenticate = async(req, res, next) => {
             password: md5(req.body.password + global.SALT_KEY)
         });
 
-        if (!customer) {
+        if (customer == null) {
             res.status(404)
                 .send({ success: false, message: 'Usuário ou senha inválidos! ', data: null })
+                .end()
             return
         }
 

@@ -11,11 +11,13 @@ exports.decodeToken = async (token) => {
 }
 
 exports.authorize = function (req, res, next) {
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+    var token = req.body.token || req.query.token || req.headers['x-access-token']; // <-- lugares para procurar o token na requisição
+    // O token poderá ser enviado na url, corpo ou cabeçalho da requisição
 
     if (!token) {
         res.status(401).json({
-            message: 'Acesso Restrito'
+            message: 'Acesso não autorizado! '
         });
     } else {
         jwt.verify(token, global.SALT_KEY, function (error, decoded) {
