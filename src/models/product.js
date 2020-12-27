@@ -3,8 +3,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// map para mongodb
-// nao precisa criar o Id, pois o mongodb o cria automaticamente
+
 const schema = new Schema({
     name: {
         type: String,
@@ -15,10 +14,15 @@ const schema = new Schema({
         type: Number,
         required: [true, 'Preenchimento obrigatório'],
     },
+    tags: [{
+        type: String,
+        required: [true, 'Preenchimento obrigatório'],
+    }],
     image: {
         type: String,     
+        required: false,
         trim: true
-    }
+    },   
 })
 
 module.exports = mongoose.model('Product', schema)

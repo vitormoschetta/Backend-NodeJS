@@ -9,7 +9,6 @@ exports.create = async (data) => {
     await model.save()
 }
 
-
 exports.authenticate = async(data) => {
     const model = await Customer.findOne({
         email: data.email,
@@ -18,12 +17,10 @@ exports.authenticate = async(data) => {
     return model;
 }
 
-
 exports.getById = async(id) => {
     const res = await Customer.findById(id);
     return res;
 }
-
 
 exports.exists = async (email) => {
     const model = await Customer.findOne({ email: email })

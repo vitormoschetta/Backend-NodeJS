@@ -7,7 +7,7 @@ const authService = require('../services/auth-service')
 
 router.get('/', controller.getAll)
 router.get('/:id', controller.getById)
-router.post('/', authService.authorize, controller.create) // <-- add authService como interceptador de rota que se deseja autenticar
+router.post('/', authService.authorize, controller.create) 
 router.put  ('/:id', authService.authorize, controller.update)
 router.delete('/:id', authService.isAdmin, controller.delete)
 

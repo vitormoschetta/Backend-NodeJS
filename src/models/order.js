@@ -29,7 +29,7 @@ const schema = new Schema({
             required: true,
             default: 1
         },
-        price: {
+        totalItemValue: {
             type: Number,
             required: true
         },
@@ -38,6 +38,10 @@ const schema = new Schema({
             ref: 'Product'
         }
     }],
+    amount: {
+        type: Number,
+        required: true
+    }
 });
 
 module.exports = mongoose.model('Order', schema);

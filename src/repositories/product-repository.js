@@ -1,18 +1,13 @@
 'use strict'
 
-
 const mongoose = require('mongoose')
 const Product = mongoose.model('Product')
-
-// o primeiro parâmetro de find() são os filtros, caso existam   
-// o segundo parâmetro de find() são as propriedades que desejamos retornar    
 
 
 exports.create = async (data) => {
     const model = new Product(data)
     await model.save()
 }
-
 
 exports.update = async (id, data) => {
     await Product
@@ -24,23 +19,19 @@ exports.update = async (id, data) => {
         })
 }
 
-
 exports.delete = async (id) => {
     await Product.findByIdAndRemove({ _id: id })
 }   
-
 
 exports.getById = async (id) => {
     const model = await Product.findById({ _id: id }, '_id name price')
     return model
 }
 
-
 exports.getAll = async () => {
     const model = await Product.find({}, '_id name price')
     return model
 }
-
 
 exports.exists = async (name) => {
     const model = await Product.findOne({ name: name })
@@ -49,7 +40,6 @@ exports.exists = async (name) => {
 
     return false
 }
-
 
 exports.existsUpdate = async (id, name) => {
     const model = await Product.findOne({ name: name })
