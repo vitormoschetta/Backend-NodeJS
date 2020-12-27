@@ -4,13 +4,17 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const config = require('./config')
 
 const app = express();
 const router = express.Router();
 
 // conecta ao banco
-const strcon = 'mongodb://localhost:27017/NodeStr'
-mongoose.connect(strcon, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
+mongoose.connect(config.connectionString, {
+        useNewUrlParser: true, 
+        useUnifiedTopology: true, 
+        useFindAndModify: false 
+    })    
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function() {
