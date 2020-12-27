@@ -13,6 +13,8 @@ module.exports = {
 
     connectionString: 'mongodb://localhost:27017/NodeStr',  // <-- string conexao banco mongodb
     
-    sendgridKey: 'sua chave secreta do provedor de serviços de envio de email sendGrid',    
+    sendgridKey: 'sua chave secreta do provedor de serviços de envio de email sendGrid',   
+
+    containerConnectionString: 'string conexao do container de imagem da conta de armazenamento do azure' 
 }
 ```
