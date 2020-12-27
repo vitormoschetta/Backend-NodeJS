@@ -101,7 +101,7 @@ Obs: A consulta **findById** recece dois parametros:
 01. Filtros, podendo ser um array, filtrando por quaisquer parâmetros desejar. Em nosso exemplo estamos filtrando por **_Id**
 02. Retornos, podendo especifiar quais propriedades desejamos retornar.
 
-[Aqui](https://mongoosejs.com/docs/queries.html) é possível verificar as consultas utilizadas por este ORM.
+[Aqui](https://mongoosejs.com/docs/queries.html){:target="_blank" rel="noopener"} é possível verificar todos os tipos de consultas utilizadas por este ORM.
 
 
 
