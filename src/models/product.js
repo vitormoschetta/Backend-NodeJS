@@ -14,6 +14,10 @@ const schema = new Schema({
     price: {
         type: Number,
         required: [true, 'Preenchimento obrigatório'],
+    },
+    image: {
+        type: String,     
+        trim: true
     }
 })
 

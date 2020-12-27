@@ -40,8 +40,8 @@ exports.create = async (req, res, next) => {
         
         emailService.send(
             req.body.email,
-            'Bem vindo ao Node Store Vithor',
-            global.EMAIL_TMPL.replace('{0}', req.body.name));
+            'Bem vindo ao Node Store',
+            `Olá, <strong>${req.body.name}</strong>, seja bem vindo à Node Store!`);
 
         res.status(201)
             .send({ success: true, message: 'Cliente cadastrado com sucesso! ', data: {'name': req.body.name, 'email': req.body.email}  })

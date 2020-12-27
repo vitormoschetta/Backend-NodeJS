@@ -3,6 +3,9 @@
 const ValidationContract = require('../validators/fluent.validator')
 const GroupErrors = require('../validators/group.errors')
 const repository = require('../repositories/product-repository')
+const azure = require('azure-storage');
+const guid = require('guid');
+var config = require('../config');
 
 
 exports.create = async (req, res, next) => {
@@ -27,11 +30,34 @@ exports.create = async (req, res, next) => {
             return
         }
 
-        await repository.create(req.body)
+        // Cria o Blob Service
+        const blobSvc = azure.createBlobService(config.containerConnectionString);
+
+        let filename = guid.raw().toString() + '.jpg';
+        let rawdata = req.body.image;
+        let matches = rawdata.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+        let type = matches[1];
+        let buffer = new Buffer(matches[2], 'base64');
+
+        // Salva a imagem
+        await blobSvc.createBlockBlobFromText('product-images', filename, buffer, {
+            contentType: type
+        }, function (error, result, response) {
+            if (error) {
+                filename = 'default-product.png'
+            }
+        });
+
+        await repository.create({
+            name: req.body.name,
+            price: req.body.price,
+            image: 'https://vithornodestore.blob.core.windows.net/product-images/' + filename
+        })
         res.status(201)
             .send({ success: true, message: "Produto cadastrado com sucesso! ", data: req.body })
     }
     catch (e) {
+        console.log(e)
         res.status(500)
             .send({ success: false, message: "Falha ao processar sua requisição! ", data: null })
     }
