@@ -101,7 +101,54 @@ Obs: A consulta **findById** recece dois parametros:
 01. Filtros, podendo ser um array, filtrando por quaisquer parâmetros desejar. Em nosso exemplo estamos filtrando por **_Id**
 02. Retornos, podendo especifiar quais propriedades desejamos retornar.
 
-[Aqui](https://mongoosejs.com/docs/queries.html){:target="_blank" rel="noopener"} é possível verificar todos os tipos de consultas utilizadas por este ORM.
+[Aqui](https://mongoosejs.com/docs/queries.html) é possível verificar todos os tipos de consultas utilizadas por este ORM.
+
+
+
+
+# Controller
+
+### Create
+
+```
+const repository = require('../repositories/product-repository')
+
+exports.create = async (req, res, next) => {
+    try {    
+        await repository.create({
+            name: req.body.name,
+            price: req.body.price,
+            image: 'https://vithornodestore.blob.core.windows.net/product-images/' + filename
+        })
+        res.status(201)
+            .send({ success: true, message: "Produto cadastrado com sucesso! ", data: req.body })
+    }
+    catch (e) {
+        console.log(e)
+        res.status(500)
+            .send({ success: false, message: "Falha ao processar sua requisição! ", data: null })
+    }
+}
+```
+
+Obs: Importamos o **Repository** e acessamos o seu método **Create** passando os valores recebidos na **requisição (req.body)**.
+
+
+### GetById
+
+```
+exports.getById = async (req, res, next) => {
+    try {
+        let data = await repository.getById(req.params.id)
+        res.status(200)
+            .send(data)
+    }
+    catch (e) {
+        res.status(500)
+            .send({ message: 'Falha ao processar sua requisição! ' })
+    }
+}
+```
 
 
 
