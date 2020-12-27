@@ -4,6 +4,7 @@ const ValidationContract = require('../validators/fluent.validator')
 const GroupErrors = require('../validators/group.errors')
 const repository = require('../repositories/customer-repository')
 const md5 = require('md5')
+const emailService = require('../services/email-service')
 
 
 exports.create = async (req, res, next) => {
@@ -36,6 +37,12 @@ exports.create = async (req, res, next) => {
             roles: req.body.roles,
             password: md5(req.body.password + global.SALT_KEY)
         })
+        
+        emailService.send(
+            req.body.email,
+            'Bem vindo ao Node Store Vithor',
+            global.EMAIL_TMPL.replace('{0}', req.body.name));
+
         res.status(201)
             .send({ success: true, message: 'Cliente cadastrado com sucesso! ', data: {'name': req.body.name, 'email': req.body.email}  })
     }
