@@ -5,7 +5,7 @@ const GroupErrors = require('../validators/group.errors')
 const repository = require('../repositories/product-repository')
 const azure = require('azure-storage');
 const guid = require('guid');
-var config = require('../config');
+var settings = require('../settings');
 
 
 exports.create = async (req, res, next) => {
@@ -31,7 +31,7 @@ exports.create = async (req, res, next) => {
         }
 
         // Cria o Blob Service
-        const blobSvc = azure.createBlobService(config.containerConnectionString);
+        const blobSvc = azure.createBlobService(settings.containerConnectionString);
 
         let filename = guid.raw().toString() + '.jpg';
         let rawdata = req.body.image;

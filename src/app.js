@@ -1,17 +1,16 @@
-
 'use strict';
 
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const config = require('./config')
+const settings = require('./settings')
 
 const app = express();
 const router = express.Router();
 
 
 // conecta ao banco
-mongoose.connect(config.connectionString, {
+mongoose.connect(settings.connectionString, {
         useNewUrlParser: true, 
         useUnifiedTopology: true, 
         useFindAndModify: false 
