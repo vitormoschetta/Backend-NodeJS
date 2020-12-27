@@ -46,8 +46,6 @@ Usamos o package **mongoose** para mapear o **modelo de domínio** para os docum
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// map para mongodb
-// nao precisa criar o Id, pois o mongodb o cria automaticamente
 const schema = new Schema({
     name: {
         type: String,
@@ -67,10 +65,17 @@ const schema = new Schema({
 module.exports = mongoose.model('Product', schema)
 ```
 
-Obs: Veja que exportamos um **Schema** com o nome **'Product'**
+Obs: Veja que exportamos um **Schema** com o nome **'Product'**.
+
+Obs2: Não precisamos declarar o **Id**, pois o **MongoDB** o cria automaticamente com a identificação **_Id**.
 
 
-### Repository
+
+
+# Repository
+
+### Create
+
 ```
 const mongoose = require('mongoose')
 const Product = mongoose.model('Product')
@@ -82,6 +87,20 @@ exports.create = async (data) => {
 ```
 
 Obs: No Repositório importamos o **Schema** com o nome **'Product'**, geramos um modelo (model) de Product passando os dados recebidos do **Controller**, e mandamos salvar (model.save)
+
+
+### GetById
+```
+exports.getById = async (id) => {
+    const model = await Product.findById({ _id: id }, '_id name price')
+    return model
+}
+```
+
+Obs: O método **findById** recece dois parametros:   
+01. Filtros, podendo ser um array, filtrando por quaisquer parâmetros desejar. Em nosso exemplo estamos filtrando por **_Id**
+02. Retornos, podendo especifiar quais propriedades desejamos retornar.
+
 
 
 
