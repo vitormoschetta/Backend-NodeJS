@@ -4,49 +4,21 @@ const ValidationContract = require('../validators/fluent.validator')
 const GroupErrors = require('../validators/group.errors')
 const repository = require('../repositories/product-repository')
 
-exports.getAll = async (req, res, next) => {
-    try {
-        let data = await repository.getAll()
-        res.status(200)
-            .send(data)
-    }
-    catch (e) {
-        res.status(500)
-            .send({
-                message: 'Falha ao processar sua requisição! '
-            })
-    }
-}
-
-exports.getById = async (req, res, next) => {
-    try {
-        let data = await repository.getById(req.params.id)      
-        res.status(200)
-            .send(data)
-    }
-    catch (e) {
-        res.status(500)
-            .send({
-                message: 'Falha ao processar sua requisição! '
-            })
-    }
-}
-
 
 exports.create = async (req, res, next) => {
+    let contract = new ValidationContract()
+    contract.hasMinLen(req.body.name, 4, 'O Nome do Produto deve conter pelo menos 4 caracteres. ')
+    contract.isSmallerThan(req.body.price, 1, 'O Preço informado é inválido. ')
+
+    if (!contract.isValid()) {
+        let errors = new GroupErrors().Group(contract.errors())
+        res.status(400)
+            .send({ success: false, message: errors, data: req.body })
+            .end()
+        return
+    }
+
     try {
-        let contract = new ValidationContract()
-        contract.hasMinLen(req.body.name, 4, 'O Nome do Produto deve conter pelo menos 4 caracteres. ')
-        contract.isSmallerThan(req.body.price, 1, 'O Preço informado é inválido. ')
-
-        if (!contract.isValid()) {
-            let errors = new GroupErrors().Group(contract.errors())
-            res.status(400)
-                .send({ success: false, message: errors, data: req.body })
-                .end()
-            return
-        }
-
         let exist = await repository.exists(req.body.name)
         if (exist) {
             res.status(400)
@@ -61,25 +33,25 @@ exports.create = async (req, res, next) => {
     }
     catch (e) {
         res.status(500)
-            .send({ success: true, message: "Falha ao processar sua requisição! ", data: null })
+            .send({ success: false, message: "Falha ao processar sua requisição! ", data: null })
     }
 }
 
 
 exports.update = async (req, res, next) => {
+    let contract = new ValidationContract()
+    contract.hasMinLen(req.body.name, 4, 'O Nome do Produto deve conter pelo menos 4 caracteres. ')
+    contract.isSmallerThan(req.body.price, 1, 'O Preço informado é inválido. ')
+
+    if (!contract.isValid()) {
+        let errors = new GroupErrors().Group(contract.errors())
+        res.status(400)
+            .send({ success: false, message: errors, data: req.body })
+            .end()
+        return
+    }
+
     try {
-        let contract = new ValidationContract()
-        contract.hasMinLen(req.body.name, 4, 'O Nome do Produto deve conter pelo menos 4 caracteres. ')
-        contract.isSmallerThan(req.body.price, 1, 'O Preço informado é inválido. ')
-
-        if (!contract.isValid()) {
-            let errors = new GroupErrors().Group(contract.errors())
-            res.status(400)
-                .send({ success: false, message: errors, data: req.body })
-                .end()
-            return
-        }
-
         let existUpdate = await repository.existsUpdate(req.params.id, req.body.name)
         if (existUpdate) {
             res.status(400)
@@ -98,6 +70,7 @@ exports.update = async (req, res, next) => {
     }
 }
 
+
 exports.delete = async (req, res, next) => {
     try {
         let data = await repository.getById(req.params.id)
@@ -114,9 +87,38 @@ exports.delete = async (req, res, next) => {
     }
     catch (e) {
         res.status(500)
-            .send({ success: true, message: "Falha ao processar sua requisição! ", data: null })
+            .send({ success: false, message: "Falha ao processar sua requisição! ", data: null })
     }
 }
+
+
+exports.getAll = async (req, res, next) => {
+    try {
+        let data = await repository.getAll()
+        res.status(200)
+            .send(data)
+    }
+    catch (e) {
+        res.status(500)
+            .send({ message: 'Falha ao processar sua requisição! ' })
+    }
+}
+
+
+exports.getById = async (req, res, next) => {
+    try {
+        let data = await repository.getById(req.params.id)
+        res.status(200)
+            .send(data)
+    }
+    catch (e) {
+        res.status(500)
+            .send({ message: 'Falha ao processar sua requisição! ' })
+    }
+}
+
+
+
 
 
 
