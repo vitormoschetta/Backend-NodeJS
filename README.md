@@ -1,5 +1,9 @@
 # Backend-NodeJS
 
+```
+npm init -y
+```
+
 API NodeJS configurada para acesso ao Banco de Dados NoSQL MongoDB.
 
 
