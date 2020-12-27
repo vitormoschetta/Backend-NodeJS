@@ -35,14 +35,14 @@ module.exports = {
 ```
 
 
+
 # Models / Maping
 
 Usamos o package **mongoose** para mapear o **modelo de domínio** para os documentos do **MongoDb**:
 
+
 ### Product example:
 ```
-'use strict'
-
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -67,6 +67,21 @@ const schema = new Schema({
 module.exports = mongoose.model('Product', schema)
 ```
 
+Obs: Veja que exportamos um **Schema** com o nome **'Product'**
+
+
+### Repository
+```
+const mongoose = require('mongoose')
+const Product = mongoose.model('Product')
+
+exports.create = async (data) => {
+    const model = new Product(data)
+    await model.save()
+}
+```
+
+Obs: No Repositório importamos o **Schema** com o nome **'Product'**, geramos um modelo (model) de Product passando os dados recebidos do **Controller**, e mandamos salvar (model.save)
 
 
 
