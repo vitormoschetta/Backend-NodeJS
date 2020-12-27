@@ -19,6 +19,12 @@ exports.authenticate = async(data) => {
 }
 
 
+exports.getById = async(id) => {
+    const res = await Customer.findById(id);
+    return res;
+}
+
+
 exports.exists = async (email) => {
     const model = await Customer.findOne({ email: email })
     if (model != null)
