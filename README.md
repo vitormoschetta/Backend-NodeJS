@@ -6,10 +6,10 @@ API NodeJS configurada para acesso ao Banco de Dados NoSQL MongoDB.
 # Pacotes / Package utilizados
 
 ###### express          
-    --> Framework para configuração de ambiente 
+Framework para configuração de ambiente 
 ###### debug            
-    --> Para rodar em modo de debug
-    
+Para rodar em modo de debug
+
 ###### http             --> Para usar o protocolo HTTP de comunicação
 ###### mongoose         --> ORM Para conectar ao MongoDB de forma simplificada
 ###### body-parser      --> Para conversão de corpo de requisições HTTP para JSON
