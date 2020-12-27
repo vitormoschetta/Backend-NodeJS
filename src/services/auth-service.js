@@ -12,7 +12,7 @@ exports.decodeToken = async (token) => {
 
 exports.authorize = function (req, res, next) {
 
-    var token = req.body.token || req.query.token || req.headers['x-access-token']; // <-- lugares para procurar o token na requisição
+    var token = req.body.token || req.query.token || req.headers['access-token']; // <-- lugares para procurar o token na requisição
     // O token poderá ser enviado na url, corpo ou cabeçalho da requisição
 
     if (!token) {

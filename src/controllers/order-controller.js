@@ -2,13 +2,13 @@
 
 const repository = require('../repositories/order-repository');
 const guid = require('guid');
-// const authService = require('../services/auth-service');
+const authService = require('../services/auth-service');
 
 
 exports.create = async (req, res, next) => {
     try {
-        // const token = req.body.token || req.query.token || req.headers['x-access-token']
-        // const data = await authService.decodeToken(token)
+        const token = req.body.token || req.query.token || req.headers['access-token']
+        const data = await authService.decodeToken(token)
 
         await repository.create({
             customer: req.body.customer,
