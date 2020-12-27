@@ -20,14 +20,7 @@ exports.getAll = async (req, res, next) => {
 
 exports.getById = async (req, res, next) => {
     try {
-        let data = await repository.getById(req.params.id)
-        if (data == null) {
-            res.status(404)
-                .send({ success: false, message: `Produto com Id ${req.params.id} não encontrado! `, data: null })
-                .end()
-            return
-        }
-
+        let data = await repository.getById(req.params.id)      
         res.status(200)
             .send(data)
     }
